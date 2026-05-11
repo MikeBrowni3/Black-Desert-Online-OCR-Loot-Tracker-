@@ -1,0 +1,33 @@
+{
+    "class": "Kunoichi",
+    "location": "Dokkebi Forest",
+    "start_timestamp": 1778446579.3807611,
+    "session_duration": "00:21:13",
+    "total_silver": 339625081,
+    "silver_per_hr": 959712358,
+    "trash_per_hr": 7943,
+    "session_active": false,
+    "timestamp": 1778447853,
+    "items": {
+        "discarded kkebicap": {
+            "count": 2811,
+            "icon": "https://bdocodex.com/items/new_icon/03_etc/04_dropitem/00065332.webp"
+        },
+        "caphras stone": {
+            "count": 12,
+            "icon": "https://bdocodex.com/items/new_icon/03_etc/00721003.webp"
+        },
+        "black stone": {
+            "count": 22,
+            "icon": "https://bdocodex.com/items/new_icon/03_etc/11_enchant_material/00000008.webp"
+        },
+        "ancient spirit dust": {
+            "count": 22,
+            "icon": "https://bdocodex.com/items/new_icon/03_etc/00721002.webp"
+        },
+        "won dawn crystal - black spirit's rage": {
+            "count": 2,
+            "icon": "https://bdocodex.com/items/new_icon/03_etc/11_enchant_material/00015266_1.webp"
+        }
+    }
+}
