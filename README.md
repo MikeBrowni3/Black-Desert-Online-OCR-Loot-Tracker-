@@ -9,6 +9,4 @@ Below is a screenshot of the current version of the tool
 /
 
 <img width="342" height="832" alt="image" src="https://github.com/user-attachments/assets/204c022f-8525-4e17-87b1-1dee6de2e58f" />
-/
-/
-/
+
