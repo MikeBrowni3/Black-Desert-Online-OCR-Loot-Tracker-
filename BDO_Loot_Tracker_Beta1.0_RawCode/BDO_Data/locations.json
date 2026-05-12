@@ -1,0 +1,23 @@
+{
+    "Honglim Base": {
+        "garmoth_id": 165,
+        "signatures": [
+            "faded bandit mask"
+        ],
+        "description": "Grind Zone: Honglim Base"
+    },
+    "Dokkebi Forest": {
+        "garmoth_id": 166,
+        "signatures": [
+            "discarded kkebicap"
+        ],
+        "description": "Grind Zone: Dokkebi Forest"
+    },
+    "Darkseekers' Retreat": {
+        "garmoth_id": 153,
+        "signatures": [
+            "decayed cloth"
+        ],
+        "description": "Grind Zone: Darkseekers' Retreat"
+    }
+}

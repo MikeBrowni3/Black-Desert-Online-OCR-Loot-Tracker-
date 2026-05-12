@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BDO Summary - Garmoth Precision</title>
+    <script src="grind-history.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0f1114; --card: #161a1f; --brd: #2a2f36; --text: #f3f4f6; --muted: #8b96a4; --blue: #3d8bfd; --green: #1fd06a; --red: #ff4d4d; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 10px; font-size: 12px; overflow-x: hidden; }
+        .container { max-width: 1300px; margin: auto; }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 8px 12px; background: var(--card); border-radius: 6px; border: 1px solid var(--brd); }
+        h1 { font-size: 16px; margin: 0; }
+        .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 10px; }
+        .stat-card { background: var(--card); border: 1px solid var(--brd); padding: 12px; border-radius: 8px; position: relative; }
+        .stat-card h4 { margin: 0; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-card p { margin: 4px 0 0; font-size: 18px; font-weight: 700; }
+        .stat-rank { font-size: 11px; font-weight: 600; margin-top: 4px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .card { background: var(--card); border: 1px solid var(--brd); padding: 12px; border-radius: 8px; display: flex; flex-direction: column; }
+        .card-header { display: flex; justify-content: space-between; border-bottom: 1px solid var(--brd); margin-bottom: 12px; padding-bottom: 6px; }
+        .card-header h3 { font-size: 11px; margin: 0; color: var(--muted); text-transform: uppercase; font-weight: 600; }
+        .session-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 8px 10px; background: var(--bg); border-radius: 4px; margin-bottom: 5px; border: 1px solid var(--brd); }
+        .session-loc { font-weight: 600; font-size: 12px; display: block; }
+        .session-class { color: var(--blue); font-size: 10px; margin-left: 4px; }
+        .session-sub { font-size: 10px; color: var(--muted); }
+        .session-silver { color: var(--green); font-weight: 700; font-size: 13px; text-align: right; display: block; }
+        .session-loot { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+        .loot-item { position: relative; width: 24px; height: 24px; border: 1px solid var(--brd); border-radius: 3px; background: #000; overflow: hidden; }
+        .loot-item img { width: 100%; height: 100%; object-fit: contain; }
+        .loot-qty { position: absolute; bottom: 0px; right: 1px; font-size: 8px; font-weight: 700; color: #fff; text-shadow: 1px 1px 1px #000; background: rgba(0,0,0,0.4); padding: 0 2px; }
+        canvas { width: 100% !important; max-height: 200px !important; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Grind Dashboard</h1>
+        <div style="font-size: 10px; color: var(--muted);">Auto-loading from grind-history.js</div>
+    </header>
+
+    <div class="stats-row">
+        <div class="stat-card"><h4>Total Silver</h4><p id="totalSilver">0</p></div>
+        <div class="stat-card"><h4>Avg Silver/Hr</h4><p id="avgSph">0</p><div id="silverRank" class="stat-rank"></div></div>
+        <div class="stat-card"><h4>Avg Trash/Hr</h4><p id="avgTph">0</p><div id="trashRank" class="stat-rank"></div></div>
+        <div class="stat-card"><h4>Total Hours</h4><p id="totalHours">0h</p></div>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <div class="card-header"><h3>Hour Distribution</h3></div>
+            <canvas id="hoursChart"></canvas>
+        </div>
+        <div class="card">
+            <div class="card-header"><h3>Silver Efficiency by Spot</h3></div>
+            <canvas id="sphChart"></canvas>
+        </div>
+        <div class="card">
+            <div class="card-header"><h3>Trash Efficiency by Spot</h3></div>
+            <canvas id="tphChart"></canvas>
+        </div>
+        <div class="card">
+            <div class="card-header"><h3>Recent History</h3></div>
+            <div id="recentList"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+Chart.register(ChartDataLabels);
+let charts = {};
+const colors = ['#3d8bfd', '#1fd06a', '#ffce56', '#ff6384', '#9966ff', '#4bc0c0', '#ff9f40'];
+
+const fmt = (n) => {
+    if (n >= 1e9) return (n/1e9).toFixed(2) + ' B';
+    if (n >= 1e6) return (n/1e6).toFixed(1) + ' M';
+    return Math.round(n).toLocaleString();
+};
+
+window.onload = () => {
+    // UPDATED: Now matches variable 'grindHistory' from your .js file
+    if (typeof grindHistory !== 'undefined') {
+        process(grindHistory);
+    } else {
+        console.error("grindHistory not found. Ensure grind-history.js is in the same folder.");
+    }
+};
+
+function process(data) {
+    // UPDATED: Now matches lowercase 'location' key
+    const validData = data.filter(row => row.location && row.location !== "SEARCHING..." && row.location !== "Detecting Zone...");
+    if (validData.length === 0) return;
+
+    let tSilv = 0, tSec = 0, trashHrTotal = 0, trashCount = 0;
+    const spots = {};
+
+    validData.forEach(row => {
+        const loc = row.location;
+        const silv = parseFloat(row.total_silver) || 0;
+        const dur = row.duration || "00:00:00";
+        const p = dur.split(':').map(Number);
+        const s = (p[0]*3600)+(p[1]*60)+(p[2]||0);
+        const tphValue = parseFloat(row.trash_hr) || 0;
+
+        tSilv += silv; 
+        tSec += s;
+        if (tphValue > 0) {
+            trashHrTotal += tphValue;
+            trashCount++;
+        }
+        
+        if(!spots[loc]) spots[loc] = { silv: 0, sec: 0, trashHrSum: 0, count: 0 };
+        spots[loc].silv += silv; 
+        spots[loc].sec += s;
+        spots[loc].trashHrSum += tphValue;
+        spots[loc].count += 1;
+    });
+
+    const totalHrs = tSec/3600 || 1;
+    document.getElementById('totalSilver').innerText = fmt(tSilv);
+    document.getElementById('avgSph').innerText = fmt(tSilv / totalHrs);
+    document.getElementById('totalHours').innerText = Math.floor(totalHrs) + 'h';
+    document.getElementById('avgTph').innerText = Math.round(trashHrTotal / (trashCount || 1)).toLocaleString();
+
+    const lastSession = validData[validData.length - 1];
+    const lastLoc = lastSession.location;
+    const lastSph = parseFloat(lastSession.silver_hr || 0);
+    const lastTph = parseFloat(lastSession.trash_hr || 0);
+    const spotAvgSph = spots[lastLoc].silv / (spots[lastLoc].sec/3600 || 1);
+    const spotAvgTph = spots[lastLoc].trashHrSum / (spots[lastLoc].count || 1);
+    
+    document.getElementById('silverRank').innerText = lastSph >= spotAvgSph ? "▲ ABOVE AVG" : "▼ BELOW AVG";
+    document.getElementById('silverRank').style.color = lastSph >= spotAvgSph ? "var(--green)" : "var(--red)";
+    document.getElementById('trashRank').innerText = lastTph >= spotAvgTph ? "▲ ABOVE AVG" : "▼ BELOW AVG";
+    document.getElementById('trashRank').style.color = lastTph >= spotAvgTph ? "var(--green)" : "var(--red)";
+
+    const lbls = Object.keys(spots);
+    updateChart('hoursChart', 'doughnut', lbls, lbls.map(l => (spots[l].sec/3600).toFixed(1)));
+    updateChart('sphChart', 'bar', lbls, lbls.map(l => spots[l].silv / (spots[l].sec/3600 || 1)), true);
+    updateChart('tphChart', 'bar', lbls, lbls.map(l => spots[l].trashHrSum / (spots[l].count || 1)), true);
+
+    document.getElementById('recentList').innerHTML = validData.slice(-5).reverse().map(r => {
+        const lootObj = r.details || {};
+        const lootHtml = Object.values(lootObj).map(item => `
+            <div class="loot-item">
+                <img src="${item.icon}">
+                <span class="loot-qty">${fmt(item.qty)}</span>
+            </div>
+        `).join('');
+
+        return `
+            <div class="session-item">
+                <div>
+                    <span class="session-loc">${r.location} <span class="session-class">[${r.class}]</span></span>
+                    <span class="session-sub">${fmt(r.silver_hr)}/hr · ${r.trash_hr || 0} T/hr</span>
+                    <div class="session-loot">${lootHtml}</div>
+                </div>
+                <div style="text-align:right">
+                    <span class="session-silver">${fmt(r.total_silver)}</span>
+                    <span class="session-sub">${r.duration}</span>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function updateChart(id, type, lbls, data, horizontal = false) {
+    if (charts[id]) charts[id].destroy();
+    const isBar = type === 'bar';
+    charts[id] = new Chart(document.getElementById(id), {
+        type: type,
+        data: { labels: lbls, datasets: [{ data: data, backgroundColor: colors, borderRadius: 4, barThickness: 12 }] },
+        options: {
+            indexAxis: horizontal ? 'y' : 'x',
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: !isBar, position: 'right', labels: { boxWidth: 8, font: { size: 10 }, color: '#8b96a4' } },
+                datalabels: {
+                    display: isBar,
+                    anchor: 'end', align: 'end', color: '#f3f4f6',
+                    font: { size: 10, weight: 'bold' },
+                    formatter: (val) => isBar ? fmt(val) : ''
+                }
+            },
+            scales: isBar ? {
+                x: { display: false },
+                y: { ticks: { color: '#f3f4f6', font: { size: 10 } }, grid: { display: false } }
+            } : { display: false }
+        }
+    });
+}
+</script>
+</body>
+</html>
