@@ -6,11 +6,10 @@ The tool tries to figure out your silver per hour and trash per hour based off y
 
 Again you are free to do what you want with the tool. it was made with streamers in mind so the html files pull the data from the json files and can be freely edited to match your stream. I will update the few things and make a video on how to use the tool and some of the goofy bugs it has. 
 
+
 Below is a screenshot of the current version of the tool 
 
-/
-/
-/
+
 
 <img width="342" height="832" alt="image" src="https://github.com/user-attachments/assets/204c022f-8525-4e17-87b1-1dee6de2e58f" />
 
