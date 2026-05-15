@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BDO Boss Timer Overlay - Sharp Georama</title>
+
+    <style>
+
+        @font-face {
+            font-family: 'Georama';
+            src: local('Georama'), local('Georama-Bold');
+            font-weight: 700;
+        }
+
+        :root { 
+            --panel-bg: rgba(0, 0, 0, 0.9); 
+            --text-main: #ffffff; 
+            --accent-green: #00ff88;
+            --info-blue: #3498db;
+        }
+
+        body { 
+            background-color: transparent; 
+            margin: 0; 
+            padding: 10px; 
+            font-family: 'Georama', sans-serif; 
+            color: var(--text-main);
+        }
+        
+        #boss-container { 
+            display: none; 
+            width: 320px; 
+            background: var(--panel-bg); 
+            border-radius: 4px; 
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,1);
+        }
+        
+        .header { 
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .boss-label {
+            color: var(--info-blue);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .boss-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .boss-icon {
+            height: 50px;
+            width: 50px;
+            border-radius: 4px;
+        }
+
+        .boss-details {
+            flex: 1;
+        }
+
+        .boss-name {
+            color: var(--accent-green);
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .countdown {
+            color: var(--text-main);
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .region {
+            color: #bdc3c7;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .loading {
+            color: #bdc3c7;
+            font-size: 16px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div id="boss-container">
+        <div class="header">
+            <div class="boss-label">Next Boss Spawn</div>
+        </div>
+        <div class="boss-info">
+            <img id="boss-icon" class="boss-icon" style="display: none;">
+            <div class="boss-details">
+                <div id="boss-name" class="boss-name">Loading...</div>
+                <div id="countdown" class="countdown">--:--:--</div>
+                <div id="region" class="region"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        let playedSounds = new Set();
+        let lastCountdown = null;
+
+        function parseCountdown(countdownStr) {
+            if (!countdownStr || countdownStr === "--:--:--") return null;
+            const parts = countdownStr.split(':');
+            if (parts.length !== 3) return null;
+            const hours = parseInt(parts[0]) || 0;
+            const minutes = parseInt(parts[1]) || 0;
+            const seconds = parseInt(parts[2]) || 0;
+            return hours * 3600 + minutes * 60 + seconds;
+        }
+
+        function playSound(soundFile) {
+            if (playedSounds.has(soundFile)) return;
+            
+            const audio = new Audio('./sounds/boss_timer/' + soundFile);
+            audio.play().catch(e => console.log('Audio play failed:', e));
+            playedSounds.add(soundFile);
+        }
+
+        async function refreshBossTimer() {
+            try {
+                const response = await fetch(
+                    './bosstimer.json?t=' + Date.now(),
+                    {
+                        cache: "no-store",
+                        headers: {
+                            'Cache-Control': 'no-cache'
+                        }
+                    }
+                );
+                
+                if (!response.ok) return;
+
+                const data = await response.json();
+
+                const container = document.getElementById('boss-container');
+                container.style.display = 'block';
+
+                document.getElementById('boss-name').innerText = data.next_boss || "Loading...";
+                document.getElementById('countdown').innerText = data.countdown || "--:--:--";
+                document.getElementById('region').innerText = data.region || "";
+
+                // Boss icon mapping - Replace these URLs with actual boss icon images
+                const bossIcons = {
+                    "Kzarka": "https://assets.garmoth.com/boss/large/kzarka.webp",
+                    "Karanda": "https://assets.garmoth.com/boss/large/karanda.webp",
+                    "Nouver": "https://assets.garmoth.com/boss/large/nouver.webp",
+                    "Kutum": "https://assets.garmoth.com/boss/large/kutum.webp",
+                    "Offin": "https://assets.garmoth.com/boss/large/offin.webp",
+                    "Vell": "https://assets.garmoth.com/boss/large/vell.webp",
+                    "Garmoth": "https://assets.garmoth.com/boss/large/garmoth.webp",
+                    "Quint": "https://assets.garmoth.com/boss/large/quint.webp",
+                    "Muraka": "https://assets.garmoth.com/boss/large/muraka.webp",
+                    "Golden Pig King": "https://assets.garmoth.com/boss/large/pigking.webp",
+                    "Uturi": "https://assets.garmoth.com/boss/large/uturi.webp",
+                    "Sangoon": "https://assets.garmoth.com/boss/large/sangoon.webp",
+                    "Bulgasal": "https://assets.garmoth.com/boss/large/bulgasal.webp",
+                    "Black Shadow": "https://assets.garmoth.com/boss/large/blackshadow.webp"
+                };
+
+                const bossIcon = document.getElementById('boss-icon');
+                const iconUrl = bossIcons[data.next_boss];
+                if (iconUrl) {
+                    bossIcon.src = iconUrl;
+                    bossIcon.style.display = 'inline';
+                } else {
+                    bossIcon.style.display = 'none';
+                }
+
+                // Sound notifications based on countdown
+                const currentSeconds = parseCountdown(data.countdown);
+                if (currentSeconds !== null) {
+                    // Reset played sounds if countdown increased (new boss)
+                    if (lastCountdown !== null && currentSeconds > lastCountdown + 60) {
+                        playedSounds.clear();
+                    }
+                    
+                    // Play sounds at specific intervals
+                    if (currentSeconds <= 1 && currentSeconds >= 0) {
+                        playSound('spawn.mp3');
+                    } else if (currentSeconds <= 60 && currentSeconds >= 59) {
+                        playSound('1.mp3');
+                    } else if (currentSeconds <= 180 && currentSeconds >= 179) {
+                        playSound('3.mp3');
+                    } else if (currentSeconds <= 300 && currentSeconds >= 299) {
+                        playSound('5.mp3');
+                    } else if (currentSeconds <= 600 && currentSeconds >= 599) {
+                        playSound('10.mp3');
+                    } else if (currentSeconds <= 900 && currentSeconds >= 899) {
+                        playSound('15.mp3');
+                    } else if (currentSeconds <= 1800 && currentSeconds >= 1799) {
+                        playSound('30.mp3');
+                    }
+                    
+                    lastCountdown = currentSeconds;
+                }
+
+            } catch (e) {
+                console.log("Waiting for boss timer data...");
+            }
+        }
+
+        setInterval(refreshBossTimer, 1000);
+        refreshBossTimer();
+
+    </script>
+
+</body>
+</html>

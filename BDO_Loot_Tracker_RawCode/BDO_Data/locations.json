@@ -1,0 +1,621 @@
+{
+    "(OLD) Sycraia (Lower)": {
+        "garmoth_id": 1,
+        "signatures": [
+            "underwater ancient weapon power stone",
+            "mossy ancient ruins fragment"
+        ],
+        "description": "Grind Zone: (OLD) Sycraia (Lower)"
+    },
+    "Tunkuta": {
+        "garmoth_id": 4,
+        "signatures": [
+            "broken horn fragment",
+            "old warrior's horn decoration"
+        ],
+        "description": "Grind Zone: Tunkuta"
+    },
+    "Ibedor's Scroll": {
+        "garmoth_id": 129,
+        "signatures": [
+            "broken horn fragment",
+            "golem's heart fragment",
+            "moonlight spirit powder"
+        ],
+        "description": "Grind Zone: Ibedor's Scroll"
+    },
+    "[Dehkia] Tunkuta": {
+        "garmoth_id": 145,
+        "signatures": [
+            "old warrior's horn decoration",
+            "tainted broken horn fragment"
+        ],
+        "description": "Grind Zone: [Dehkia] Tunkuta"
+    },
+    "Olun's Valley": {
+        "garmoth_id": 5,
+        "signatures": [
+            "golem's heart fragment"
+        ],
+        "description": "Grind Zone: Olun's Valley"
+    },
+    "Vessel of Inquisition": {
+        "garmoth_id": 2,
+        "signatures": [
+            "sanguine crystal of despair",
+            "destroyed star fragment"
+        ],
+        "description": "Grind Zone: Vessel of Inquisition"
+    },
+    "Vessel of Inquisition Pillars": {
+        "garmoth_id": 117,
+        "signatures": [
+            "sanguine crystal of despair",
+            "destroyed star fragment"
+        ],
+        "description": "Grind Zone: Vessel of Inquisition Pillars"
+    },
+    "Hystria Ruins": {
+        "garmoth_id": 3,
+        "signatures": [
+            "hystria ruins fragment"
+        ],
+        "description": "Grind Zone: Hystria Ruins"
+    },
+    "Aakman Temple": {
+        "garmoth_id": 6,
+        "signatures": [
+            "aakman guardian's token"
+        ],
+        "description": "Grind Zone: Aakman Temple"
+    },
+    "Thornwood Forest": {
+        "garmoth_id": 7,
+        "signatures": [
+            "moonlight spirit powder"
+        ],
+        "description": "Grind Zone: Thornwood Forest"
+    },
+    "Crypt of Resting Thoughts": {
+        "garmoth_id": 8,
+        "signatures": [
+            "abyssal ash"
+        ],
+        "description": "Grind Zone: Crypt of Resting Thoughts"
+    },
+    "Kratuga Ancient Ruins": {
+        "garmoth_id": 9,
+        "signatures": [
+            "iridescent rock piece"
+        ],
+        "description": "Grind Zone: Kratuga Ancient Ruins"
+    },
+    "Padix Island": {
+        "garmoth_id": 10,
+        "signatures": [
+            "outlaw's mark"
+        ],
+        "description": "Grind Zone: Padix Island"
+    },
+    "Abandoned Monastery": {
+        "garmoth_id": 11,
+        "signatures": [
+            "shadow knight's armor ornament"
+        ],
+        "description": "Grind Zone: Abandoned Monastery"
+    },
+    "Swamp Fogan Habitat": {
+        "garmoth_id": 14,
+        "signatures": [
+            "hardened casque"
+        ],
+        "description": "Grind Zone: Swamp Fogan Habitat"
+    },
+    "Castle Ruins": {
+        "garmoth_id": 16,
+        "signatures": [
+            "mark of desperate rebels"
+        ],
+        "description": "Grind Zone: Castle Ruins"
+    },
+    "Orc Camp": {
+        "garmoth_id": 17,
+        "signatures": [
+            "oily orange mushroom"
+        ],
+        "description": "Grind Zone: Orc Camp"
+    },
+    "Swamp Naga Habitat": {
+        "garmoth_id": 15,
+        "signatures": [
+            "bruised naga fin"
+        ],
+        "description": "Grind Zone: Swamp Naga Habitat"
+    },
+    "Altar Imp Habitat": {
+        "garmoth_id": 13,
+        "signatures": [
+            "covetous eye"
+        ],
+        "description": "Grind Zone: Altar Imp Habitat"
+    },
+    "Bloody Monastery": {
+        "garmoth_id": 18,
+        "signatures": [
+            "proof of blind faith"
+        ],
+        "description": "Grind Zone: Bloody Monastery"
+    },
+    "Biraghi Den": {
+        "garmoth_id": 12,
+        "signatures": [
+            "proof of reckless courage"
+        ],
+        "description": "Grind Zone: Biraghi Den"
+    },
+    "Manshaum Narc's Stone": {
+        "garmoth_id": 128,
+        "signatures": [
+            "narc magic mark",
+            "hunter's seal"
+        ],
+        "description": "Grind Zone: Manshaum Narc's Stone"
+    },
+    "Ash Forest": {
+        "garmoth_id": 27,
+        "signatures": [
+            "specter's cloth"
+        ],
+        "description": "Grind Zone: Ash Forest"
+    },
+    "(OLD) Sycraia (Upper)": {
+        "garmoth_id": 32,
+        "signatures": [
+            "destroyed ancient weapon power stone"
+        ],
+        "description": "Grind Zone: (OLD) Sycraia (Upper)"
+    },
+    "Shultz Guard": {
+        "garmoth_id": 34,
+        "signatures": [
+            "armor fragment",
+            "sausan supplies package",
+            "robe piece"
+        ],
+        "description": "Grind Zone: Shultz Guard"
+    },
+    "Protty Cave": {
+        "garmoth_id": 37,
+        "signatures": [
+            "protty fin"
+        ],
+        "description": "Grind Zone: Protty Cave"
+    },
+    "Griffons - Navarn Steppe": {
+        "garmoth_id": 154,
+        "signatures": [
+            "feather wolf tail"
+        ],
+        "description": "Grind Zone: Griffons - Navarn Steppe"
+    },
+    "Traitor's Graveyard": {
+        "garmoth_id": 72,
+        "signatures": [
+            "shard of the vengeful undead"
+        ],
+        "description": "Grind Zone: Traitor's Graveyard"
+    },
+    "Pila Fe Scroll": {
+        "garmoth_id": 127,
+        "signatures": [
+            "bashim mane",
+            "hunter's seal",
+            "mutant bat's wing"
+        ],
+        "description": "Grind Zone: Pila Fe Scroll"
+    },
+    "Gahaz Bandit's Lair": {
+        "garmoth_id": 43,
+        "signatures": [
+            "gahaz seal"
+        ],
+        "description": "Grind Zone: Gahaz Bandit's Lair"
+    },
+    "Gyfin Rhasia Underground": {
+        "garmoth_id": 97,
+        "signatures": [
+            "bronze fragment of delusion"
+        ],
+        "description": "Grind Zone: Gyfin Rhasia Underground"
+    },
+    "Winter Tree Fossil (TBD)": {
+        "garmoth_id": 112,
+        "signatures": [
+            "winter tree snow crystal"
+        ],
+        "description": "Grind Zone: Winter Tree Fossil (TBD)"
+    },
+    "Winter Tree Fossil (280)": {
+        "garmoth_id": 149,
+        "signatures": [
+            "winter tree snow crystal"
+        ],
+        "description": "Grind Zone: Winter Tree Fossil (280)"
+    },
+    "Winter Tree Fossil (250)": {
+        "garmoth_id": 150,
+        "signatures": [
+            "winter tree snow crystal"
+        ],
+        "description": "Grind Zone: Winter Tree Fossil (250)"
+    },
+    "Erethea's Limbo": {
+        "garmoth_id": 113,
+        "signatures": [
+            "evergrowing scale"
+        ],
+        "description": "Grind Zone: Erethea's Limbo"
+    },
+    "Jade Starlight Forest": {
+        "garmoth_id": 110,
+        "signatures": [
+            "starlit jade powder"
+        ],
+        "description": "Grind Zone: Jade Starlight Forest"
+    },
+    "Tshira Ruins": {
+        "garmoth_id": 24,
+        "signatures": [
+            "mud stained branch"
+        ],
+        "description": "Grind Zone: Tshira Ruins"
+    },
+    "Sherekhan (Night)": {
+        "garmoth_id": 119,
+        "signatures": [
+            "medal of bravery"
+        ],
+        "description": "Grind Zone: Sherekhan (Night)"
+    },
+    "Rhutum Outstation": {
+        "garmoth_id": 122,
+        "signatures": [
+            "gnawing rhutum fang",
+            "tattered shadow"
+        ],
+        "description": "Grind Zone: Rhutum Outstation"
+    },
+    "Quint Hill": {
+        "garmoth_id": 121,
+        "signatures": [
+            "fiery troll hide",
+            "tattered shadow"
+        ],
+        "description": "Grind Zone: Quint Hill"
+    },
+    "Primal Giant Post": {
+        "garmoth_id": 120,
+        "signatures": [
+            "scornful spear",
+            "tattered shadow"
+        ],
+        "description": "Grind Zone: Primal Giant Post"
+    },
+    "Hexe Sanctuary": {
+        "garmoth_id": 124,
+        "signatures": [
+            "howling bone fragment",
+            "tattered shadow"
+        ],
+        "description": "Grind Zone: Hexe Sanctuary"
+    },
+    "Saunil Camp": {
+        "garmoth_id": 123,
+        "signatures": [
+            "icy armor fragment",
+            "tattered shadow"
+        ],
+        "description": "Grind Zone: Saunil Camp"
+    },
+    "Relic Crystal": {
+        "garmoth_id": 125,
+        "signatures": [
+            "hunter's seal",
+            "huge spear",
+            "metal armor fragment",
+            "red orc fang",
+            "red orc nose ring"
+        ],
+        "description": "Grind Zone: Relic Crystal"
+    },
+    "Cartian Spell": {
+        "garmoth_id": 126,
+        "signatures": [
+            "hunter's seal",
+            "broken shackles",
+            "cultist's token",
+            "useful coin pouch"
+        ],
+        "description": "Grind Zone: Cartian Spell"
+    },
+    "Blood Wolf Settlement": {
+        "garmoth_id": 22,
+        "signatures": [
+            "blood wolf tooth"
+        ],
+        "description": "Grind Zone: Blood Wolf Settlement"
+    },
+    "[Dehkia] Thornwood Forest": {
+        "garmoth_id": 146,
+        "signatures": [
+            "tainted moonlight spirit powder"
+        ],
+        "description": "Grind Zone: [Dehkia] Thornwood Forest"
+    },
+    "[Dehkia] Olun's Valley": {
+        "garmoth_id": 144,
+        "signatures": [
+            "tainted golem's heart fragment"
+        ],
+        "description": "Grind Zone: [Dehkia] Olun's Valley"
+    },
+    "[Dehkia] Ash Forest": {
+        "garmoth_id": 143,
+        "signatures": [
+            "tainted specter's cloth"
+        ],
+        "description": "Grind Zone: [Dehkia] Ash Forest"
+    },
+    "City of the Dead": {
+        "garmoth_id": 147,
+        "signatures": [
+            "mark of the black sands"
+        ],
+        "description": "Grind Zone: City of the Dead"
+    },
+    "Tungrad Ruins": {
+        "garmoth_id": 148,
+        "signatures": [
+            "tungrad ruins fragment"
+        ],
+        "description": "Grind Zone: Tungrad Ruins"
+    },
+    "[Dehkia] Cyclops Land": {
+        "garmoth_id": 151,
+        "signatures": [
+            "tainted huge spear",
+            "corrupted gargoyle claw"
+        ],
+        "description": "Grind Zone: [Dehkia] Cyclops Land"
+    },
+    "Darkseeker's Retreat": {
+        "garmoth_id": 153,
+        "signatures": [
+            "decayed cloth"
+        ],
+        "description": "Grind Zone: Darkseeker's Retreat"
+    },
+    "[Dehkia] Aakman Temple": {
+        "garmoth_id": 155,
+        "signatures": [
+            "tainted aakman's token"
+        ],
+        "description": "Grind Zone: [Dehkia] Aakman Temple"
+    },
+    "[Dehkia] Hystria Ruins": {
+        "garmoth_id": 156,
+        "signatures": [
+            "tainted ruins fragment"
+        ],
+        "description": "Grind Zone: [Dehkia] Hystria Ruins"
+    },
+    "Yzrahid Highlands": {
+        "garmoth_id": 157,
+        "signatures": [
+            "corrupt power source"
+        ],
+        "description": "Grind Zone: Yzrahid Highlands"
+    },
+    "[Dehkia] Roud Sulfur Mine": {
+        "garmoth_id": 158,
+        "signatures": [
+            "tainted sulfur fragment"
+        ],
+        "description": "Grind Zone: [Dehkia] Roud Sulfur Mine"
+    },
+    "[Dehkia] Pila Ku Jail": {
+        "garmoth_id": 159,
+        "signatures": [
+            "tainted token piece"
+        ],
+        "description": "Grind Zone: [Dehkia] Pila Ku Jail"
+    },
+    "[Dehkia] Crescent Shrine": {
+        "garmoth_id": 160,
+        "signatures": [
+            "tainted token of crescent"
+        ],
+        "description": "Grind Zone: [Dehkia] Crescent Shrine"
+    },
+    "[Dehkia 2] Olun's Valley": {
+        "garmoth_id": 161,
+        "signatures": [
+            "tainted golem's heart fragment"
+        ],
+        "description": "Grind Zone: [Dehkia 2] Olun's Valley"
+    },
+    "[Dehkia 2] Ash Forest": {
+        "garmoth_id": 162,
+        "signatures": [
+            "tainted specter's cloth"
+        ],
+        "description": "Grind Zone: [Dehkia 2] Ash Forest"
+    },
+    "[Dehkia] Cadry Ruins": {
+        "garmoth_id": 163,
+        "signatures": [
+            "tainted cadry's token"
+        ],
+        "description": "Grind Zone: [Dehkia] Cadry Ruins"
+    },
+    "Honglim Base": {
+        "garmoth_id": 165,
+        "signatures": [
+            "faded bandit mask"
+        ],
+        "description": "Grind Zone: Honglim Base"
+    },
+    "Dokkebi Forest": {
+        "garmoth_id": 166,
+        "signatures": [
+            "discarded kkebicap"
+        ],
+        "description": "Grind Zone: Dokkebi Forest"
+    },
+    "Unlucky Golden Pig Cave": {
+        "garmoth_id": 168,
+        "signatures": [
+            "shattered treasures"
+        ],
+        "description": "Grind Zone: Unlucky Golden Pig Cave"
+    },
+    "[Elvia] Orzekea": {
+        "garmoth_id": 169,
+        "signatures": [
+            "thorn-entwined weapon fragment"
+        ],
+        "description": "Grind Zone: [Elvia] Orzekea"
+    },
+    "Titium Valley": {
+        "garmoth_id": 83,
+        "signatures": [
+            "broken desert fogan egg",
+            "sturdy rock fragment",
+            "sturdy timber fragment"
+        ],
+        "description": "Grind Zone: Titium Valley"
+    },
+    "Navarn Steppe": {
+        "garmoth_id": 39,
+        "signatures": [
+            "gazelle fur"
+        ],
+        "description": "Grind Zone: Navarn Steppe"
+    },
+    "Fortunate Golden Pig Cave": {
+        "garmoth_id": 167,
+        "signatures": [
+            "shiny treasure"
+        ],
+        "description": "Grind Zone: Fortunate Golden Pig Cave"
+    },
+    "Cadry Ruins": {
+        "garmoth_id": 86,
+        "signatures": [
+            "sturdy rock fragment"
+        ],
+        "description": "Grind Zone: Cadry Ruins"
+    },
+    "Roud Sulfur Mine": {
+        "garmoth_id": 91,
+        "signatures": [
+            "sturdy rock fragment",
+            "sturdy timber fragment"
+        ],
+        "description": "Grind Zone: Roud Sulfur Mine"
+    },
+    "Nymphamare Castle": {
+        "garmoth_id": 184,
+        "signatures": [
+            "contaminated coral piece"
+        ],
+        "description": "Grind Zone: Nymphamare Castle"
+    },
+    "Aetherion Castle": {
+        "garmoth_id": 183,
+        "signatures": [
+            "chilled soul piece"
+        ],
+        "description": "Grind Zone: Aetherion Castle"
+    },
+    "Orbita Castle": {
+        "garmoth_id": 185,
+        "signatures": [
+            "lightlost core"
+        ],
+        "description": "Grind Zone: Orbita Castle"
+    },
+    "Tenebraum Castle": {
+        "garmoth_id": 193,
+        "signatures": [
+            "ancient soldier fragment"
+        ],
+        "description": "Grind Zone: Tenebraum Castle"
+    },
+    "Zephyrus Castle": {
+        "garmoth_id": 194,
+        "signatures": [
+            "hardened lava chunk"
+        ],
+        "description": "Grind Zone: Zephyrus Castle"
+    },
+    "[Dehkia] Gyfin Rhasia Temple (Upper)": {
+        "garmoth_id": 198,
+        "signatures": [
+            "tainted bronze fragment"
+        ],
+        "description": "Grind Zone: [Dehkia] Gyfin Rhasia Temple (Upper)"
+    },
+    "[Dehkia] Mirumok Ruins": {
+        "garmoth_id": 199,
+        "signatures": [
+            "tainted wood fragment"
+        ],
+        "description": "Grind Zone: [Dehkia] Mirumok Ruins"
+    },
+    "Star's End": {
+        "garmoth_id": 200,
+        "signatures": [
+            "corrupted sanguine crystal"
+        ],
+        "description": "Grind Zone: Star's End"
+    },
+    "Sycraia Ruins Lower Zone": {
+        "garmoth_id": 201,
+        "signatures": [
+            "underwater ancient weapon power stone"
+        ],
+        "description": "Grind Zone: Sycraia Ruins Lower Zone"
+    },
+    "Sycraia Ruins Upper Zone": {
+        "garmoth_id": 202,
+        "signatures": [
+            "destroyed ancient weapon power stone"
+        ],
+        "description": "Grind Zone: Sycraia Ruins Upper Zone"
+    },
+    "Dark Energy Floodlands (Great Red Sea)": {
+        "garmoth_id": 208,
+        "signatures": [
+            "tainted armor fragment",
+            "faded dark energy"
+        ],
+        "description": "Grind Zone: Dark Energy Floodlands (Great Red Sea)"
+    },
+    "Dark Energy Floodlands (Orbita)": {
+        "garmoth_id": 209,
+        "signatures": [
+            "tainted armor fragment",
+            "faded dark energy"
+        ],
+        "description": "Grind Zone: Dark Energy Floodlands (Orbita)"
+    },
+    "Dark Energy Floodlands (Zephyros)": {
+        "garmoth_id": 210,
+        "signatures": [
+            "tainted armor fragment",
+            "faded dark energy"
+        ],
+        "description": "Grind Zone: Dark Energy Floodlands (Zephyros)"
+    }
+}

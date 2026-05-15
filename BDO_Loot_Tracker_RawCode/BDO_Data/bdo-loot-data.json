@@ -1,0 +1,22 @@
+{
+    "class": "Awakening Kunoichi",
+    "class_icon": "class_icons/Kunoichi_class_icon_White.png",
+    "location": "Dokkebi Forest",
+    "start_timestamp": 1778842834.4998336,
+    "session_duration": "00:02:39",
+    "total_silver": 24434245,
+    "silver_per_hr": 548823127,
+    "trash_per_hr": 0,
+    "session_active": false,
+    "timestamp": 1778842994,
+    "items": {
+        "discarded kkebicap": {
+            "count": 95,
+            "icon": "drop_icons/56327.png"
+        },
+        "caphras stone": {
+            "count": 8,
+            "icon": "drop_icons/721003.png"
+        }
+    }
+}
