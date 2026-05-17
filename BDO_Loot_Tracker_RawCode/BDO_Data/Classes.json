@@ -1,12 +1,12 @@
 {
     "awakening warrior": {
-        "id": 0,
+        "id": 5,
         "spec": 0,
         "description": "Awakening Warrior",
         "icon": "class_icons/Warrior_class_icon_White.png"
     },
     "succession warrior": {
-        "id": 0,
+        "id": 5,
        "spec": 1,
         "description": "Succession Warrior",
         "icon": "class_icons/Warrior_class_icon_White.png"
@@ -36,109 +36,109 @@
         "icon": "class_icons/Sorceress_class_icon_White.png"
     },
     "awakening berserker": {
-        "id": 3,
+        "id": 0,
         "spec": 0,
         "description": "Awakening Berserker",
         "icon": "class_icons/Berserker_class_icon_White.png"
     },
     "succession berserker": {
-        "id": 3,
+        "id": 0,
         "spec": 1,
         "description": "Succession Berserker",
         "icon": "class_icons/Berserker_class_icon_White.png"
     },
     "awakening tamer": {
-        "id": 4,
+        "id": 3,
         "spec": 0,
         "description": "Awakening Tamer",
         "icon": "class_icons/Tamer_class_icon_White.png"
     },
     "succession tamer": {
-        "id": 4,
+        "id": 3,
         "spec": 1,
         "description": "Succession Tamer",
         "icon": "class_icons/Tamer_class_icon_White.png"
     },
     "awakening musa": {
-        "id": 5,
+        "id": 8,
         "spec": 0,
         "description": "Awakening Musa",
         "icon": "class_icons/Musa_class_icon_White.png"
     },
     "succession musa": {
-        "id": 5,
+        "id": 8,
         "spec": 1,
         "description": "Succession Musa",
         "icon": "class_icons/Musa_class_icon_White.png"
     },
     "awakening maehwa": {
-        "id": 6,
+        "id": 9,
         "spec": 0,
         "description": "Awakening Maehwa",
         "icon": "class_icons/Maehwa_class_icon_White.png"
     },
     "succession maehwa": {
-        "id": 6,
+        "id": 9,
         "spec": 1,
         "description": "Succession Maehwa",
         "icon": "class_icons/Maehwa_class_icon_White.png"
     },
     "awakening valkyrie": {
-        "id": 7,
+        "id": 4,
         "spec": 0,
         "description": "Awakening Valkyrie",
         "icon": "class_icons/Valkyrie_class_icon_White.png"
     },
     "succession valkyrie": {
-        "id": 7,
+        "id": 4,
         "spec": 1,
         "description": "Succession Valkyrie",
         "icon": "class_icons/Valkyrie_class_icon_White.png"
     },
     "awakening kunoichi": {
-        "id": 8,
+        "id": 11,
         "spec": 0,
         "description": "Awakening Kunoichi",
         "icon": "class_icons/Kunoichi_class_icon_White.png"
     },
     "succession kunoichi": {
-        "id": 8,
+        "id": 11,
         "spec": 1,
         "description": "Succession Kunoichi",
         "icon": "class_icons/Kunoichi_class_icon_White.png"
     },
     "awakening ninja": {
-        "id": 9,
+        "id": 10,
         "spec": 0,
         "description": "Awakening Ninja",
         "icon": "class_icons/Ninja_class_icon_White.png"
     },
     "succession ninja": {
-        "id": 9,
+        "id": 10,
         "spec": 1,
         "description": "Succession Ninja",
         "icon": "class_icons/Ninja_class_icon_White.png"
     },
     "awakening wizard": {
-        "id": 10,
+        "id": 7,
         "spec": 0,
         "description": "Awakening Wizard",
         "icon": "class_icons/Wizard_class_icon_White.png"
     },
     "succession wizard": {
-        "id": 10,
+        "id": 7,
         "spec": 1,
         "description": "Succession Wizard",
         "icon": "class_icons/Wizard_class_icon_White.png"
     },
     "awakening witch": {
-        "id": 11,
+        "id": 6,
         "spec": 0,
         "description": "Awakening Witch",
         "icon": "class_icons/Witch_class_icon_White.png"
     },
     "succession witch": {
-        "id": 11,
+        "id": 6,
         "spec": 1,
         "description": "Succession Witch",
         "icon": "class_icons/Witch_class_icon_White.png"
@@ -191,28 +191,16 @@
         "description": "Succession Lahn",
         "icon": "class_icons/Lahn_class_icon_White.png"
     },
-    "awakening archer": {
-        "id": 16,
-        "spec": 0,
-        "description": "Awakening Archer",
-        "icon": "class_icons/Archer_class_icon_White.png"
-    },
-    "succession archer": {
+    "archer": {
         "id": 16,
         "spec": 1,
-        "description": "Succession Archer",
+        "description": "Archer",
         "icon": "class_icons/Archer_class_icon_White.png"
     },
-    "awakening shai": {
-        "id": 17,
-        "spec": 0,
-        "description": "Awakening Shai",
-        "icon": "class_icons/Shai_class_icon_White.png"
-    },
-    "succession shai": {
+    "shai": {
         "id": 17,
         "spec": 1,
-        "description": "Succession Shai",
+        "description": "Shai",
         "icon": "class_icons/Shai_class_icon_White.png"
     },
     "awakening guardian": {
@@ -311,16 +299,10 @@
         "description": "Succession Maegu",
         "icon": "class_icons/Maegu_class_icon_White.png"
     },
-    "awakening scholar": {
+    "scholar": {
         "id": 26,
         "spec": 0,
-        "description": "Awakening Scholar",
-        "icon": "class_icons/Scholar_class_icon_White.png"
-    },
-    "succession scholar": {
-        "id": 26,
-        "spec": 1,
-        "description": "Succession Scholar",
+        "description": "Scholar",
         "icon": "class_icons/Scholar_class_icon_White.png"
     },
     "awakening dosa": {
@@ -335,40 +317,22 @@
         "description": "Succession Dosa",
         "icon": "class_icons/Dosa_class_icon_White.png"
     },
-    "awakening deadeye": {
-        "id": 28,
-        "spec": 0,
-        "description": "Awakening Deadeye",
-        "icon": "class_icons/Deadeye_class_icon_White.png"
-    },
-    "succession deadeye": {
+    "deadeye": {
         "id": 28,
         "spec": 1,
-        "description": "Succession Deadeye",
+        "description": "Deadeye",
         "icon": "class_icons/Deadeye_class_icon_White.png"
     },
-    "awakening wukong": {
-        "id": 29,
-        "spec": 0,
-        "description": "Awakening Wukong",
-        "icon": "class_icons/Wukong_class_icon_White.png"
-    },
-    "succession wukong": {
+    "wukong": {
         "id": 29,
         "spec": 1,
-        "description": "Succession Wukong",
+        "description": "Wukong",
         "icon": "class_icons/Wukong_class_icon_White.png"
     },
-    "awakening seraph": {
-        "id": 30,
-        "spec": 0,
-        "description": "Awakening Seraph",
-        "icon": "class_icons/Seraph_class_icon_White.png"
-    },
-    "succession seraph": {
+    "seraph": {
         "id": 30,
         "spec": 1,
-        "description": "Succession Seraph",
+        "description": "Seraph",
         "icon": "class_icons/Seraph_class_icon_White.png"
     }
 }
