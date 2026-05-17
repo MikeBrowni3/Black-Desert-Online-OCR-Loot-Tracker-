@@ -1,0 +1,24 @@
+{
+    "top": 1093,
+    "left": 2136,
+    "width": 357,
+    "height": 315,
+    "font": "",
+    "class": "",
+    "class_id": 8,
+    "spec": 0,
+    "transparency": 1.0,
+    "hotkey": "DELETE",
+    "garmoth_api_key": "",
+    "boss_region": "NA",
+    "sound_volume": 0.38961038961038963,
+    "sound_notifications": {
+        "30min": true,
+        "15min": true,
+        "10min": true,
+        "5min": true,
+        "3min": true,
+        "1min": true,
+        "spawn": true
+    }
+}

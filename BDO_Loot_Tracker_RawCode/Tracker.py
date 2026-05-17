@@ -81,7 +81,7 @@ class LootTrackerApp(ctk.CTk):
         super().__init__()
 
         self.title("BDO Loot Tracker")
-        self.geometry("380x740")
+        self.geometry("380x750")
         self.configure(fg_color="#000000")
 
         self.update_queue = queue.Queue()
@@ -484,6 +484,28 @@ class LootTrackerApp(ctk.CTk):
         self.silver_label.configure(font=(self.current_font_family, 22, "bold"))
         self.silver_hr_label.configure(font=(self.current_font_family, 16, "bold"))
         self.trash_hr_label.configure(font=(self.current_font_family, 16, "bold"))
+        
+        # Update main buttons
+        if hasattr(self, 'start_btn'):
+            self.start_btn.configure(font=(self.current_font_family, 12, "bold"))
+        if hasattr(self, 'stop_btn'):
+            self.stop_btn.configure(font=(self.current_font_family, 12, "bold"))
+        if hasattr(self, 'click_btn'):
+            self.click_btn.configure(font=(self.current_font_family, 12, "bold"))
+        if hasattr(self, 'garmoth_btn'):
+            self.garmoth_btn.configure(font=(self.current_font_family, 12, "bold"))
+        if hasattr(self, 'save_api_btn'):
+            self.save_api_btn.configure(font=(self.current_font_family, 12, "bold"))
+        if hasattr(self, 'sync_btn'):
+            self.sync_btn.configure(font=(self.current_font_family, 12, "bold"))
+        
+        # Update all loot rows with new font
+        for item_name, row in self.loot_rows.items():
+            for child in row.winfo_children():
+                if isinstance(child, ctk.CTkLabel):
+                    current_font = child.cget("font")
+                    if isinstance(current_font, tuple) and len(current_font) >= 2:
+                        child.configure(font=(self.current_font_family, current_font[1]) + (current_font[2:] if len(current_font) > 2 else ()))
 
     def set_transparency(self, value):
         self.transparency_val = float(value)
@@ -561,7 +583,7 @@ class LootTrackerApp(ctk.CTk):
         self.silver_container = ctk.CTkFrame(self.row_frame, fg_color="transparent")
         self.silver_container.pack(side="right", padx=5)
 
-        ctk.CTkLabel(self.silver_container, text="TOTAL SILVER", font=("Georama", 10), text_color="#00ff88").pack(anchor="e")
+        ctk.CTkLabel(self.silver_container, text="TOTAL SILVER", font=(self.current_font_family, 10), text_color="#00ff88").pack(anchor="e")
         self.silver_label = ctk.CTkLabel(self.silver_container, text="0", text_color="#ffffff")
         self.silver_label.pack(anchor="e")
 
@@ -571,27 +593,27 @@ class LootTrackerApp(ctk.CTk):
 
         self.s_hr_box = ctk.CTkFrame(self.stats_grid, fg_color="#1a1a1a", corner_radius=2)
         self.s_hr_box.grid(row=0, column=0, padx=5, sticky="nsew")
-        ctk.CTkLabel(self.s_hr_box, text="SILVER / HR", font=("Georama", 10), text_color="#00ff88").pack(pady=(5,0))
+        ctk.CTkLabel(self.s_hr_box, text="SILVER / HR", font=(self.current_font_family, 10), text_color="#00ff88").pack(pady=(5,0))
         self.silver_hr_label = ctk.CTkLabel(self.s_hr_box, text="0")
         self.silver_hr_label.pack(pady=(0,5))
 
         self.t_hr_box = ctk.CTkFrame(self.stats_grid, fg_color="#1a1a1a", corner_radius=2)
         self.t_hr_box.grid(row=0, column=1, padx=5, sticky="nsew")
-        ctk.CTkLabel(self.t_hr_box, text="TRASH / HR", font=("Georama", 10), text_color="#00ff88").pack(pady=(5,0))
+        ctk.CTkLabel(self.t_hr_box, text="TRASH / HR", font=(self.current_font_family, 10), text_color="#00ff88").pack(pady=(5,0))
         self.trash_hr_label = ctk.CTkLabel(self.t_hr_box, text="0")
         self.trash_hr_label.pack(pady=(0,5))
 
         self.btn_frame = ctk.CTkFrame(tracker_tab, fg_color="transparent")
         self.btn_frame.pack(fill="x", pady=10)
-        self.start_btn = ctk.CTkButton(self.btn_frame, text="START", fg_color="#27ae60", height=32, command=self.start_session)
+        self.start_btn = ctk.CTkButton(self.btn_frame, text="START", fg_color="#27ae60", height=32, font=(self.current_font_family, 12, "bold"), command=self.start_session)
         self.start_btn.pack(side="left", padx=5, expand=True)
-        self.stop_btn = ctk.CTkButton(self.btn_frame, text="STOP", fg_color="#c0392b", height=32, command=self.stop_session)
+        self.stop_btn = ctk.CTkButton(self.btn_frame, text="STOP", fg_color="#c0392b", height=32, font=(self.current_font_family, 12, "bold"), command=self.stop_session)
         self.stop_btn.pack(side="left", padx=5, expand=True)
 
-        self.click_btn = ctk.CTkButton(tracker_tab, text=f"{self.current_hotkey_str}: CLICK-THRU OFF", fg_color="#34495e", height=32, command=self.toggle_click_through)
+        self.click_btn = ctk.CTkButton(tracker_tab, text=f"{self.current_hotkey_str}: CLICK-THRU OFF", fg_color="#34495e", height=32, font=(self.current_font_family, 12, "bold"), command=self.toggle_click_through)
         self.click_btn.pack(fill="x", padx=5, pady=5)
 
-        self.garmoth_btn = ctk.CTkButton(tracker_tab, text="UPLOAD TO GARMOTH", fg_color="#f39c12", height=32, command=self.upload_to_garmoth)
+        self.garmoth_btn = ctk.CTkButton(tracker_tab, text="UPLOAD TO GARMOTH", fg_color="#f39c12", height=32, font=(self.current_font_family, 12, "bold"), command=self.upload_to_garmoth)
         self.garmoth_btn.pack(fill="x", padx=5, pady=5)
 
         self.garmoth_progress = ctk.CTkProgressBar(tracker_tab, orientation="horizontal", height=8, progress_color="#3498db")
@@ -633,7 +655,7 @@ class LootTrackerApp(ctk.CTk):
                     video_thumbnail = ctk.CTkImage(light_image=img_data, dark_image=img_data, size=(320, 180))
                     
                     video_button = ctk.CTkButton(video_frame, image=video_thumbnail, text="", fg_color="transparent", 
-                                               hover_color="#3498db", cursor="hand2", command=lambda url=video_url: webbrowser.open(url))
+                                               hover_color="#3498db", cursor="hand2", font=(self.current_font_family, 12), command=lambda url=video_url: webbrowser.open(url))
                     video_button.pack(pady=10)
                 else:
                     # Fallback to high quality if maxres not available
@@ -645,16 +667,36 @@ class LootTrackerApp(ctk.CTk):
                         video_thumbnail = ctk.CTkImage(light_image=img_data, dark_image=img_data, size=(320, 180))
                         
                         video_button = ctk.CTkButton(video_frame, image=video_thumbnail, text="", fg_color="transparent", 
-                                                   hover_color="#3498db", cursor="hand2", command=lambda url=video_url: webbrowser.open(url))
+                                                   hover_color="#3498db", cursor="hand2", font=(self.current_font_family, 12), command=lambda url=video_url: webbrowser.open(url))
                         video_button.pack(pady=10)
             except:
                 # Fallback to text link if image loading fails
-                video_link = ctk.CTkLabel(video_frame, text=f"▶ {video_title}", font=("Georama", 14, "bold"), 
+                video_link = ctk.CTkLabel(video_frame, text=f"▶ {video_title}", font=(self.current_font_family, 14, "bold"), 
                                          text_color="#3498db", cursor="hand2")
                 video_link.pack(pady=15)
                 video_link.bind("<Button-1>", lambda e, url=video_url: webbrowser.open(url))
 
-            ctk.CTkLabel(video_frame, text=f"Click to watch {video_title}", font=("Georama", 10), text_color="#bdc3c7").pack(pady=(0, 10))
+            ctk.CTkLabel(video_frame, text=f"Click to watch {video_title}", font=(self.current_font_family, 10), text_color="#bdc3c7").pack(pady=(0, 10))
+
+        # Add clickable link at the bottom
+        guides_link_frame = ctk.CTkFrame(guides_tab, fg_color="#1a1a1a", corner_radius=10)
+        guides_link_frame.pack(pady=10, padx=10, fill="x")
+        
+        guides_link_btn = ctk.CTkButton(guides_link_frame, text="Ultimate Site for BDO Guides", 
+                                       fg_color="#9b59b6", hover_color="#8e44ad", height=35,
+                                       font=(self.current_font_family, 12, "bold"),
+                                       command=lambda: webbrowser.open("https://garmoth.com/guides"))
+        guides_link_btn.pack(pady=10, padx=10, fill="x")
+        
+        # Add class guides button
+        class_guides_frame = ctk.CTkFrame(guides_tab, fg_color="#1a1a1a", corner_radius=10)
+        class_guides_frame.pack(pady=10, padx=10, fill="x")
+        
+        class_guides_btn = ctk.CTkButton(class_guides_frame, text="Ultimate Site for Class Guides", 
+                                         fg_color="#3498db", hover_color="#2980b9", height=35,
+                                         font=(self.current_font_family, 12, "bold"),
+                                         command=lambda: webbrowser.open("https://www.blackdesertfoundry.com/category/all-guides/class-guides/"))
+        class_guides_btn.pack(pady=10, padx=10, fill="x")
 
         boss_timer_tab = self.tabview.tab("Boss Timer")
         boss_timer_tab.configure(fg_color="#000000")
@@ -663,7 +705,7 @@ class LootTrackerApp(ctk.CTk):
         region_frame = ctk.CTkFrame(boss_timer_tab, fg_color="#1a1a1a", corner_radius=5)
         region_frame.pack(fill="x", padx=10, pady=5)
         
-        ctk.CTkLabel(region_frame, text="Region:", font=("Georama", 12), text_color="#bdc3c7").pack(side="left", padx=10)
+        ctk.CTkLabel(region_frame, text="Region:", font=(self.current_font_family, 12), text_color="#bdc3c7").pack(side="left", padx=10)
         self.region_dropdown = ctk.CTkComboBox(region_frame, values=["EU", "NA", "SEA", "JP", "KR", "MENA", "SA", "RU"], command=self.set_boss_region, width=100)
         self.region_dropdown.set(self.boss_region)
         self.region_dropdown.pack(side="left", padx=10)
@@ -675,7 +717,7 @@ class LootTrackerApp(ctk.CTk):
         sound_frame = ctk.CTkFrame(boss_timer_tab, fg_color="#1a1a1a", corner_radius=5)
         sound_frame.pack(fill="x", padx=10, pady=5)
         
-        ctk.CTkLabel(sound_frame, text="Sound Notifications:", font=("Georama", 12, "bold"), text_color="#3498db").pack(pady=(5, 0))
+        ctk.CTkLabel(sound_frame, text="Sound Notifications:", font=(self.current_font_family, 12, "bold"), text_color="#3498db").pack(pady=(5, 0))
         
         self.sound_checkboxes = {}
         sound_options = [("30 min", "30min"), ("15 min", "15min"), ("10 min", "10min"), ("5 min", "5min"), ("3 min", "3min"), ("1 min", "1min"), ("On Spawn", "spawn")]
@@ -694,14 +736,14 @@ class LootTrackerApp(ctk.CTk):
             self.sound_checkboxes[key] = checkbox
         
         # Volume slider
-        volume_label = ctk.CTkLabel(sound_frame, text=f"Volume: {int(self.sound_volume * 100)}%", font=("Georama", 10), text_color="#bdc3c7")
+        volume_label = ctk.CTkLabel(sound_frame, text=f"Volume: {int(self.sound_volume * 100)}%", font=(self.current_font_family, 10), text_color="#bdc3c7")
         volume_label.pack(pady=(5, 0))
         self.volume_slider = ctk.CTkSlider(sound_frame, from_=0.0, to=1.0, command=self.set_sound_volume)
         self.volume_slider.set(self.sound_volume)
         self.volume_slider.pack(pady=(0, 5), padx=10, fill="x")
         
         # Test sound button
-        test_sound_btn = ctk.CTkButton(sound_frame, text="🔊 TEST SOUND", fg_color="#9b59b6", height=28, command=self.test_boss_sound)
+        test_sound_btn = ctk.CTkButton(sound_frame, text="🔊 TEST SOUND", fg_color="#9b59b6", height=28, font=(self.current_font_family, 11, "bold"), command=self.test_boss_sound)
         test_sound_btn.pack(pady=(5, 10), padx=10, fill="x")
         
         self.boss_labels = {}
@@ -730,12 +772,12 @@ class LootTrackerApp(ctk.CTk):
         self.garmoth_api_entry.pack(pady=5)
         self.garmoth_api_entry.insert(0, self.garmoth_api_key)
 
-        self.save_api_btn = ctk.CTkButton(settings_tab, text="SAVE API KEY", fg_color="#8e44ad", command=self.save_garmoth_api_key)
+        self.save_api_btn = ctk.CTkButton(settings_tab, text="SAVE API KEY", fg_color="#8e44ad", font=(self.current_font_family, 12, "bold"), command=self.save_garmoth_api_key)
         self.save_api_btn.pack(pady=(0,10))
 
-        self.sync_btn = ctk.CTkButton(settings_tab, text="SYNC DATABASE", fg_color="#2980b9", command=self.sync_database)
+        self.sync_btn = ctk.CTkButton(settings_tab, text="SYNC DATABASE", fg_color="#2980b9", font=(self.current_font_family, 12, "bold"), command=self.sync_database)
         self.sync_btn.pack(pady=(10,0))
-        self.sync_status_label = ctk.CTkLabel(settings_tab, text="", font=("Georama", 10))
+        self.sync_status_label = ctk.CTkLabel(settings_tab, text="", font=(self.current_font_family, 10))
         self.sync_status_label.pack()
 
         self.transparency_label = ctk.CTkLabel(settings_tab, text=f"Transparency: {int(self.transparency_val * 100)}%")
@@ -744,13 +786,18 @@ class LootTrackerApp(ctk.CTk):
         self.trans_slider.set(self.transparency_val)
         self.trans_slider.pack(pady=5)
 
-        ctk.CTkButton(settings_tab, text="RE-CONFIGURE SCAN AREA", fg_color="#8e44ad", command=self.toggle_selector).pack(pady=20)
+        ctk.CTkButton(settings_tab, text="RE-CONFIGURE SCAN AREA", fg_color="#8e44ad", font=(self.current_font_family, 12, "bold"), command=self.toggle_selector).pack(pady=20)
         
-        ctk.CTkButton(settings_tab, text="SNAP TO 357x315 (LOG SIZE + BUFFER)", fg_color="#d35400", command=self.snap_to_standard_size).pack(pady=(0, 10))
+        ctk.CTkButton(settings_tab, text="SNAP TO 357x315 (LOG SIZE + BUFFER)", fg_color="#d35400", font=(self.current_font_family, 12, "bold"), command=self.snap_to_standard_size).pack(pady=(0, 10))
         
-        setup_link = ctk.CTkLabel(settings_tab, text="How To Setup Loot Tracker : Click Here", text_color="#3498db", cursor="hand2")
-        setup_link.pack(pady=(0, 10))
-        setup_link.bind("<Button-1>", lambda e: webbrowser.open("https://www.youtube.com/watch?v=xQOaEX3zQXI"))
+        setup_link_frame = ctk.CTkFrame(settings_tab, fg_color="#1a1a1a", corner_radius=10)
+        setup_link_frame.pack(pady=10, padx=10, fill="x")
+        
+        setup_link_btn = ctk.CTkButton(setup_link_frame, text="How To Setup Loot Tracker", 
+                                       fg_color="#9b59b6", hover_color="#8e44ad", height=35,
+                                       font=(self.current_font_family, 12, "bold"),
+                                       command=lambda: webbrowser.open("https://www.youtube.com/watch?v=xQOaEX3zQXI"))
+        setup_link_btn.pack(pady=10, padx=10, fill="x")
 
         link_label = ctk.CTkLabel(settings_tab, text="made by : https://www.twitch.tv/brownie_", text_color="#3498db", cursor="hand2")
         link_label.pack(pady=(10, 5))
@@ -779,7 +826,7 @@ class LootTrackerApp(ctk.CTk):
                 self.silver_label.configure(text=f"{self.total_silver_value:,}")
                 elapsed = max(1, time.time() - self.start_time)
                 s_hr = int((self.total_silver_value / elapsed) * 3600)
-                total_trash = sum(qty for item, qty in self.rapid_loot_table.items() if self.get_item_data(item).get("category") == "Trash")
+                total_trash = sum(qty for item, qty in self.rapid_loot_table.items() if self.get_item_data(item).get("category", "").lower() == "trash")
                 t_hr = int((total_trash / elapsed) * 3600)
                 self.silver_hr_label.configure(text=f"{s_hr:,}")
                 self.trash_hr_label.configure(text=f"{t_hr:,}")
@@ -864,7 +911,7 @@ class LootTrackerApp(ctk.CTk):
             if new_state & 0x8000 and not state_hotkey:
                 self.update_queue.put(("toggle_click", None))
             state_hotkey = new_state & 0x8000
-            time.sleep(0.05)
+            time.sleep(0.1)
 
     def update_loop(self):
         try: 
@@ -884,18 +931,18 @@ class LootTrackerApp(ctk.CTk):
                     rapid_base = enhanced.resize((w * 3, h * 3), Image.Resampling.BILINEAR).convert("RGB")
 
                     frame_count += 1
-                    if frame_count % 3 == 0:
+                    if frame_count % 10 == 0:
                         p2 = rapid_base.copy()
                         p2.thumbnail((300, 250))
                         img2 = ctk.CTkImage(light_image=p2, size=p2.size)
                         self.update_queue.put(("preview", (None, img2)))
                     
-                    if rapid_engine:
+                    if rapid_engine and frame_count % 2 == 0:
                         res, _ = rapid_engine(np.array(rapid_base))
                         if res:
                             now = time.time()
                             updated = False
-                            self.active_tracks = [t for t in self.active_tracks if now - t['last_time'] < 2.0]
+                            self.active_tracks = [t for t in self.active_tracks if now - t['last_time'] < 5.0]
                             search_pool = self.active_pool if self.active_pool else list(self.items_by_name.keys())
 
                             for box_data in res:
@@ -903,22 +950,24 @@ class LootTrackerApp(ctk.CTk):
                                 line = str(box_data[1]).strip().lower()
                                 score = float(box_data[2])
                                 y_center = sum(p[1] for p in box_coords) / 4
-                                if score < 0.45 or len(line) < 3: continue 
+                                if score < 0.75 or len(line) < 3: continue 
                                 qty_match = re.findall(r'(\d+)', line)
                                 clean_name = re.sub(r'[^a-z\s-]', '', re.sub(r'[x\s]?\d+', '', line)).strip()
-                                match = get_close_matches(clean_name, search_pool, n=1, cutoff=0.70)
+                                name_len = len(clean_name)
+                                cutoff = 0.75 if name_len < 10 else 0.75
+                                match = get_close_matches(clean_name, search_pool, n=1, cutoff=cutoff)
                                 if match:
                                     item = match[0]
                                     qty = 1
                                     if qty_match:
                                         try: qty = int(qty_match[-1].replace(',', ''))
                                         except: pass
-                                    elif self.get_item_data(item).get("category") == "Trash":
+                                    elif self.get_item_data(item).get("category", "").lower() == "trash":
                                         qty = 1 
                                     is_duplicate = False
                                     for track in self.active_tracks:
                                         if track['name'] == item and track['qty'] == qty:
-                                            if -50 < (y_center - track['last_y']) < 15:
+                                            if -100 < (y_center - track['last_y']) < 30:
                                                 track['last_y'] = y_center
                                                 track['last_time'] = now
                                                 is_duplicate = True
@@ -932,7 +981,7 @@ class LootTrackerApp(ctk.CTk):
                                 self.update_queue.put(("ui_refresh", None))
                                 self.save_loot_data()
                 except Exception as e: self.log_error("update_loop", e)
-                time.sleep(0.1)
+                time.sleep(0.2)
 
     def toggle_click_through(self):
         try:
@@ -979,7 +1028,7 @@ class LootTrackerApp(ctk.CTk):
             self.total_silver_value = sum(qty * self.get_item_data(item).get("price", 0) for item, qty in self.loot_table.items())
             elapsed = max(1, time.time() - self.start_time)
             s_hr = int((self.total_silver_value / elapsed) * 3600)
-            total_trash = sum(qty for item, qty in self.loot_table.items() if self.get_item_data(item).get("category") == "Trash")
+            total_trash = sum(qty for item, qty in self.loot_table.items() if self.get_item_data(item).get("category", "").lower() == "trash")
             t_hr = int((total_trash / elapsed) * 3600)
             items_with_icons = {}
             for item, qty in self.loot_table.items():
@@ -1006,7 +1055,7 @@ class LootTrackerApp(ctk.CTk):
             total_silver = sum(qty * self.get_item_data(item).get("price", 0) for item, qty in self.loot_table.items())
             elapsed = max(1, time.time() - self.start_time)
             s_hr = int((total_silver / elapsed) * 3600)
-            total_trash = sum(qty for item, qty in self.loot_table.items() if self.get_item_data(item).get("category") == "Trash")
+            total_trash = sum(qty for item, qty in self.loot_table.items() if self.get_item_data(item).get("category", "").lower() == "trash")
             t_hr = int((total_trash / elapsed) * 3600)
             details = {}
             for item, qty in self.loot_table.items():
@@ -1090,8 +1139,8 @@ class LootTrackerApp(ctk.CTk):
         self.selector.attributes("-alpha", 0.6, "-topmost", True) 
         self.selector.configure(fg_color="#3498db") 
         self.selector.geometry(f"{self.scan_region['width']}x{self.scan_region['height']}+{self.scan_region['left']}+{self.scan_region['top']}")
-        ctk.CTkLabel(self.selector, text="DRAG & RESIZE OVER LOOT FEED", text_color="white", font=("Georama", 12, "bold")).pack(pady=10)
-        ctk.CTkButton(self.selector, text="LOCK AREA", fg_color="#2ecc71", command=self.lock_region).pack(expand=True)
+        ctk.CTkLabel(self.selector, text="DRAG & RESIZE OVER LOOT FEED", text_color="white", font=(self.current_font_family, 12, "bold")).pack(pady=10)
+        ctk.CTkButton(self.selector, text="LOCK AREA", fg_color="#2ecc71", font=(self.current_font_family, 12, "bold"), command=self.lock_region).pack(expand=True)
 
     def lock_region(self):
         self.scan_region = {"top": self.selector.winfo_y(), "left": self.selector.winfo_x(), "width": self.selector.winfo_width(), "height": self.selector.winfo_height()}
@@ -1135,11 +1184,11 @@ class LootTrackerApp(ctk.CTk):
             # Display boss names on the left (green)
             boss_names = ", ".join(boss_entry["bosses"])
             print(f"[DEBUG] Time: {boss_entry['time']}, Bosses: {boss_names}")
-            name_label = ctk.CTkLabel(boss_frame, text=boss_names, font=("Georama", 12, "bold"), text_color="#00ff88", anchor="w")
+            name_label = ctk.CTkLabel(boss_frame, text=boss_names, font=(self.current_font_family, 12, "bold"), text_color="#00ff88", anchor="w")
             name_label.pack(side="left", padx=10, pady=5)
             
             # Display time on the right (gray)
-            time_label = ctk.CTkLabel(boss_frame, text=boss_entry["time"], font=("Georama", 11), text_color="#bdc3c7", anchor="e")
+            time_label = ctk.CTkLabel(boss_frame, text=boss_entry["time"], font=(self.current_font_family, 11), text_color="#bdc3c7", anchor="e")
             time_label.pack(side="right", padx=10, pady=5)
             
             # Store label for updates (use time as key)
