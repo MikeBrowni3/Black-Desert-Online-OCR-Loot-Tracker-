@@ -7,7 +7,7 @@ The tool tries to figure out your silver per hour and trash per hour based off y
 Again you are free to do what you want with the tool. it was made with streamers in mind so the html files pull the data from the json files and can be freely edited to match your stream. I will update the few things and make a video on how to use the tool and some of the goofy bugs it has. 
 
 
-Below is a screenshots of the current version of the tool and HTML files on stream 
+**Below is a screenshots of the current version of the tool and HTML files on stream** 
 
 [![Watch the video](https://i.imgur.com/NorY1IL.jpeg)](https://www.twitch.tv/brownie_/clip/TenuousHyperRedpandaTwitchRaid-o9UPLB0sWmj0hGzM)
 
@@ -15,6 +15,8 @@ Below is a screenshots of the current version of the tool and HTML files on stre
 
 <img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/201aa80c-8176-4903-89c8-9c00dc985ac4" />
 
-<img width="342" height="832" alt="image" src="https://github.com/user-attachments/assets/204c022f-8525-4e17-87b1-1dee6de2e58f" />
+<img width="377" height="778" alt="image" src="https://github.com/user-attachments/assets/c3b3ee1a-88ba-4784-91bf-d7f3e63d73bf" />
 
-
+<img width="382" height="782" alt="image" src="https://github.com/user-attachments/assets/36678a75-4920-4b67-af0c-24bed9df453a" />
+<img width="382" height="782" alt="image" src="https://github.com/user-attachments/assets/d9a9770b-9177-4921-b47d-088c33d1d5d5" />
+<img width="382" height="782" alt="image" src="https://github.com/user-attachments/assets/eb6c1c0b-3552-47bb-9263-1b41f3eda365" />
