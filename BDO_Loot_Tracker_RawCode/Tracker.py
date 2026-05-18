@@ -567,23 +567,35 @@ class LootTrackerApp(ctk.CTk):
         self.header_frame = ctk.CTkFrame(tracker_tab, fg_color="transparent")
         self.header_frame.pack(fill="x", pady=(5, 0))
 
-        self.zone_label = ctk.CTkLabel(self.header_frame, text=self.current_zone.upper(), text_color="#3498db")
-        self.zone_label.pack(side="left", padx=5)
+        # Left container for location and class name
+        self.left_header = ctk.CTkFrame(self.header_frame, fg_color="transparent")
+        self.left_header.pack(side="left", padx=5)
 
-        self.class_icon_label = ctk.CTkLabel(self.header_frame, text="", width=32, height=32)
+        self.zone_label = ctk.CTkLabel(self.left_header, text=self.current_zone.upper(), text_color="#3498db", anchor="center", font=(self.current_font_family, 17, "bold"))
+        self.zone_label.pack(fill="x", pady=(0, 2))
+
+        self.class_name_label = ctk.CTkLabel(self.left_header, text=self.current_class.upper(), text_color="#ffffff", anchor="center", font=(self.current_font_family, 17, "bold"))
+        self.class_name_label.pack(fill="x")
+
+        # Class icon to the right of class name
+        self.class_icon_label = ctk.CTkLabel(self.header_frame, text="", width=100, height=100)
         self.class_icon_label.pack(side="right", padx=5)
         self.update_class_icon()
 
         self.row_frame = ctk.CTkFrame(tracker_tab, fg_color="transparent")
         self.row_frame.pack(fill="x", pady=10)
 
-        self.timer_label = ctk.CTkLabel(self.row_frame, text="00:00:00", text_color="#ffffff")
-        self.timer_label.pack(side="left", padx=5)
+        self.timer_container = ctk.CTkFrame(self.row_frame, fg_color="transparent")
+        self.timer_container.pack(side="left", padx=5)
+
+        ctk.CTkLabel(self.timer_container, text="TIME", font=(self.current_font_family, 12), text_color="#00ff88").pack(anchor="w")
+        self.timer_label = ctk.CTkLabel(self.timer_container, text="00:00:00", text_color="#ffffff")
+        self.timer_label.pack(anchor="w")
 
         self.silver_container = ctk.CTkFrame(self.row_frame, fg_color="transparent")
         self.silver_container.pack(side="right", padx=5)
 
-        ctk.CTkLabel(self.silver_container, text="TOTAL SILVER", font=(self.current_font_family, 10), text_color="#00ff88").pack(anchor="e")
+        ctk.CTkLabel(self.silver_container, text="TOTAL SILVER", font=(self.current_font_family, 12), text_color="#00ff88").pack(anchor="e")
         self.silver_label = ctk.CTkLabel(self.silver_container, text="0", text_color="#ffffff")
         self.silver_label.pack(anchor="e")
 
@@ -605,7 +617,7 @@ class LootTrackerApp(ctk.CTk):
 
         self.btn_frame = ctk.CTkFrame(tracker_tab, fg_color="transparent")
         self.btn_frame.pack(fill="x", pady=10)
-        self.start_btn = ctk.CTkButton(self.btn_frame, text="START", fg_color="#27ae60", height=32, font=(self.current_font_family, 12, "bold"), command=self.start_session)
+        self.start_btn = ctk.CTkButton(self.btn_frame, text="START/RESET", fg_color="#27ae60", height=32, font=(self.current_font_family, 12, "bold"), command=self.start_session)
         self.start_btn.pack(side="left", padx=5, expand=True)
         self.stop_btn = ctk.CTkButton(self.btn_frame, text="STOP", fg_color="#c0392b", height=32, font=(self.current_font_family, 12, "bold"), command=self.stop_session)
         self.stop_btn.pack(side="left", padx=5, expand=True)
@@ -830,7 +842,8 @@ class LootTrackerApp(ctk.CTk):
                 t_hr = int((total_trash / elapsed) * 3600)
                 self.silver_hr_label.configure(text=f"{s_hr:,}")
                 self.trash_hr_label.configure(text=f"{t_hr:,}")
-                self.zone_label.configure(text=f"{self.current_zone.upper()} • {self.current_class.upper()}")
+                self.zone_label.configure(text=f"{self.current_zone.upper()}")
+                self.class_name_label.configure(text=f"{self.current_class.upper()}")
                 
                 sorted_items = sorted(self.rapid_loot_table.items(), key=lambda x: x[1], reverse=True)
                 for item_name, qty in sorted_items:
@@ -919,69 +932,143 @@ class LootTrackerApp(ctk.CTk):
         except: rapid_engine = None
         
         frame_count = 0
+        self.last_save_time = time.time()
+        
+        # Cache for faster OCR name matching
+        item_cache = {}
+        
         with MSS() as sct:
             while self.session_running:
                 try:
+                    frame_count += 1
+                    
+                    # -------------------------------------------------
+                    # Capture Screen Region
+                    # -------------------------------------------------
                     sct_img = sct.grab(self.scan_region)
                     raw_img = Image.frombytes("RGB", sct_img.size, sct_img.bgra, "raw", "BGRX")
-                    raw_img = ImageOps.expand(raw_img, border=(0, 0, 0, 15), fill="black")
+                    
+                    # Small bottom border helps OCR with cutoff text
+                    raw_img = ImageOps.expand(raw_img, border=(0, 0, 0, 10), fill="black")
+                    
+                    # -------------------------------------------------
+                    # Image Processing
+                    # -------------------------------------------------
                     enhanced = ImageOps.grayscale(raw_img)
-                    enhanced = enhanced.point(lambda p: 255 if p > 165 else 0) 
+                    
+                    # Lower threshold slightly for better rare item detection
+                    enhanced = enhanced.point(lambda p: 255 if p > 150 else 0)
+                    
+                    # Smaller upscale = MUCH lower CPU usage
                     w, h = enhanced.size
-                    rapid_base = enhanced.resize((w * 3, h * 3), Image.Resampling.BILINEAR).convert("RGB")
-
-                    frame_count += 1
-                    if frame_count % 10 == 0:
+                    rapid_base = enhanced.resize((int(w * 2), int(h * 2)), Image.Resampling.BILINEAR).convert("RGB")
+                    
+                    # -------------------------------------------------
+                    # Preview Refresh (Reduced Frequency)
+                    # -------------------------------------------------
+                    if frame_count % 30 == 0:
                         p2 = rapid_base.copy()
                         p2.thumbnail((300, 250))
                         img2 = ctk.CTkImage(light_image=p2, size=p2.size)
                         self.update_queue.put(("preview", (None, img2)))
                     
-                    if rapid_engine and frame_count % 2 == 0:
+                    # -------------------------------------------------
+                    # OCR ONLY Every 3 Frames
+                    # -------------------------------------------------
+                    if frame_count % 3 != 0:
+                        time.sleep(0.25)
+                        continue
+                    
+                    if rapid_engine:
                         res, _ = rapid_engine(np.array(rapid_base))
                         if res:
                             now = time.time()
                             updated = False
-                            self.active_tracks = [t for t in self.active_tracks if now - t['last_time'] < 5.0]
+                            
+                            # Remove stale tracking entries
+                            self.active_tracks = [t for t in self.active_tracks if now - t['last_time'] < 2.0]
+                            
                             search_pool = self.active_pool if self.active_pool else list(self.items_by_name.keys())
-
+                            
                             for box_data in res:
-                                box_coords = box_data[0] 
-                                line = str(box_data[1]).strip().lower()
-                                score = float(box_data[2])
-                                y_center = sum(p[1] for p in box_coords) / 4
-                                if score < 0.75 or len(line) < 3: continue 
-                                qty_match = re.findall(r'(\d+)', line)
-                                clean_name = re.sub(r'[^a-z\s-]', '', re.sub(r'[x\s]?\d+', '', line)).strip()
-                                name_len = len(clean_name)
-                                cutoff = 0.75 if name_len < 10 else 0.75
-                                match = get_close_matches(clean_name, search_pool, n=1, cutoff=cutoff)
-                                if match:
-                                    item = match[0]
+                                try:
+                                    box_coords = box_data[0]
+                                    line = str(box_data[1]).strip().lower()
+                                    score = float(box_data[2])
+                                    
+                                    # Lower confidence threshold improves misses
+                                    if score < 0.70:
+                                        continue
+                                    
+                                    if len(line) < 3:
+                                        continue
+                                    
+                                    y_center = sum(p[1] for p in box_coords) / 4
+                                    x_center = sum(p[0] for p in box_coords) / 4
+                                    
+                                    # -------------------------------------------------
+                                    # Quantity Detection
+                                    # -------------------------------------------------
+                                    qty_match = re.findall(r'(\d+)', line)
+                                    clean_name = re.sub(r'[^a-z\s-]', '', re.sub(r'[x\s]?\d+', '', line)).strip()
+                                    
+                                    if not clean_name:
+                                        continue
+                                    
+                                    # -------------------------------------------------
+                                    # Cached Match Lookup
+                                    # -------------------------------------------------
+                                    item = item_cache.get(clean_name)
+                                    
+                                    if not item:
+                                        name_len = len(clean_name)
+                                        cutoff = 0.80 if name_len < 10 else 0.75
+                                        match = get_close_matches(clean_name, search_pool, n=1, cutoff=cutoff)
+                                        
+                                        if match:
+                                            item = match[0]
+                                            item_cache[clean_name] = item
+                                        else:
+                                            continue
+                                    
                                     qty = 1
                                     if qty_match:
                                         try: qty = int(qty_match[-1].replace(',', ''))
                                         except: pass
                                     elif self.get_item_data(item).get("category", "").lower() == "trash":
-                                        qty = 1 
+                                        qty = 1
+                                    
+                                    # -------------------------------------------------
+                                    # Duplicate Detection with X/Y Tracking
+                                    # -------------------------------------------------
                                     is_duplicate = False
                                     for track in self.active_tracks:
                                         if track['name'] == item and track['qty'] == qty:
-                                            if -100 < (y_center - track['last_y']) < 30:
+                                            # Tighter Y tolerance + X tracking
+                                            if -15 < (y_center - track['last_y']) < 15 and -30 < (x_center - track.get('last_x', x_center)) < 30:
                                                 track['last_y'] = y_center
+                                                track['last_x'] = x_center
                                                 track['last_time'] = now
                                                 is_duplicate = True
                                                 break
+                                    
                                     if not is_duplicate:
                                         self.detect_zone(item)
                                         self.rapid_loot_table[item] = self.rapid_loot_table.get(item, 0) + qty
-                                        self.active_tracks.append({'name': item, 'qty': qty, 'last_y': y_center, 'last_time': now})
+                                        self.active_tracks.append({'name': item, 'qty': qty, 'last_y': y_center, 'last_x': x_center, 'last_time': now})
                                         updated = True
+                                except Exception as e:
+                                    self.log_error("ocr_processing", e)
+                                    continue
+                            
                             if updated:
                                 self.update_queue.put(("ui_refresh", None))
-                                self.save_loot_data()
+                                # Reduce disk write frequency
+                                if now - self.last_save_time > 2.0:
+                                    self.save_loot_data()
+                                    self.last_save_time = now
                 except Exception as e: self.log_error("update_loop", e)
-                time.sleep(0.2)
+                time.sleep(0.25)
 
     def toggle_click_through(self):
         try:
@@ -1001,10 +1088,19 @@ class LootTrackerApp(ctk.CTk):
     def start_session(self):
         self.session_running = True
         self.start_time = time.time()
+        self.current_zone = "SEARCHING..."
+        self.zone_label.configure(text=self.current_zone.upper())
         self.rapid_loot_table = {}
+        self.loot_table = {}
+        self.total_silver_value = 0
+        self.active_tracks = []
+        self.active_pool = []
         for row in self.loot_rows.values():
             row.destroy()
         self.loot_rows = {}
+        self.silver_label.configure(text="0")
+        self.silver_hr_label.configure(text="0")
+        self.trash_hr_label.configure(text="0")
         threading.Thread(target=self.update_loop, daemon=True).start()
         self.tick_timer()
 
@@ -1114,8 +1210,8 @@ class LootTrackerApp(ctk.CTk):
         if icon_path and os.path.exists(os.path.join(DATA_FOLDER, icon_path)):
             try:
                 img = Image.open(os.path.join(DATA_FOLDER, icon_path))
-                img = img.resize((32, 32), Image.Resampling.LANCZOS)
-                ctk_img = ctk.CTkImage(light_image=img, dark_image=img, size=(32, 32))
+                img = img.resize((100, 100), Image.Resampling.LANCZOS)
+                ctk_img = ctk.CTkImage(light_image=img, dark_image=img, size=(100, 100))
                 self.class_icon_label.configure(image=ctk_img, text="")
             except Exception as e:
                 self.log_error("update_class_icon", e)
