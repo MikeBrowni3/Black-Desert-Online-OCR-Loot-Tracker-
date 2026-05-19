@@ -1,61 +1,15 @@
 {
-    "_info": {
-        "_purpose": "This file controls duplicate detection tolerances for the BDO Loot Tracker. Adjust these values to improve tracking accuracy without changing code.",
-        "_tolerance_format": "[y_tolerance, x_tolerance] - Maximum pixel distance in Y and X directions to consider an item a duplicate",
-        "_how_it_works": "When an item is detected, the tracker checks if a similar item was recently detected within these pixel distances. If yes, it's considered a duplicate and not counted again.",
-        "_accuracy_tuning_guide": {
-            "overcounting_issue": "If you track MORE than you actually loot, TIGHTEN the tolerance (reduce numbers). This prevents false duplicates from being counted as separate items.",
-            "undercounting_issue": "If you track LESS than you actually loot, LOOSEN the tolerance (increase numbers). This allows more variation in item position before being considered a duplicate.",
-            "perfect_accuracy": "When tracked count matches looted count, the tolerance is optimal for that item."
-        },
-        "_category_based_defaults": {
-            "trash": "[25, 35] - Loose tolerance for common trash items that appear frequently and may shift position",
-            "General": "[15, 25] - Medium tolerance for general items like black stones",
-            "rare": "[12, 18] - Tight tolerance for rare items to prevent false positives",
-            "default": "[12, 18] - Fallback for items without a category"
-        },
-        "_manual_overrides_section": "Use _manual_overrides to fine-tune specific items. Overrides take precedence over auto-generated values.",
-        "_testing_workflow": {
-            "step_1": "Grind for 5-10 minutes and record tracked vs looted counts",
-            "step_2": "Identify items with accuracy issues (overcounting or undercounting)",
-            "step_3": "For overcounting items: Add to _manual_overrides with TIGHTER tolerance (smaller numbers)",
-            "step_4": "For undercounting items: Add to _manual_overrides with LOOSER tolerance (larger numbers)",
-            "step_5": "Test again and iterate until accuracy is 95%+ for all items",
-            "step_6": "Share your optimized _manual_overrides with the community"
-        },
-        "_machine_learning_integration": {
-            "suggested_approach": "Use accuracy data (tracked vs looted) to train a model that predicts optimal tolerances based on item properties (category, price, drop rate, name length, etc.)",
-            "input_features": ["item_category", "item_price", "drop_frequency", "name_complexity", "icon_similarity_score"],
-            "output_target": "optimal_y_tolerance, optimal_x_tolerance",
-            "training_data": "Collect grinding sessions with known ground truth (actual looted counts) to train the model"
-        },
-        "_community_collaboration": {
-            "share_optimized_tolerances": "Post your _manual_overrides section to forums/discord with your accuracy results",
-            "regional_differences": "Note that optimal tolerances may vary by screen resolution, UI scale, and game client version",
-            "version_control": "Keep backups of working tolerance configs before experimenting"
-        }
-    },
     "_category_defaults": {
-        "trash": [25, 35],
-        "General": [15, 25],
-        "rare": [12, 18],
+        "trash": [40, 50],
+        "General": [20, 30],
+        "rare": [10, 15],
         "default": [12, 18]
     },
     "_manual_overrides": {
-        "ancient spirit dust": [10, 15],
-        "black stone": [12, 18],
-        "won dawn crystal": [10, 15],
-        "caphras stone": [20, 30]
-    },
-    "_example_item_entries": {
-        "discarded kkebicap": [25, 35],
-        "black stone (armor)": [15, 25],
-        "ancient spirit dust": [10, 15]
-    },
-    "_notes": {
-        "item_names": "All item names must be lowercase to match the tracker's internal format",
-        "tolerance_ranges": "Recommended range: y_tolerance [8-40], x_tolerance [12-50]. Values outside this range may cause issues.",
-        "special_cases": "Items with very similar names or icons may need tighter tolerances to prevent misidentification.",
-        "resolution_scaling": "Higher screen resolutions may require proportionally larger tolerances."
+        "discarded kkebicap": [40, 50],
+        "ancient spirit dust": [8, 12],
+        "black stone": [25, 35],
+        "caphras stone": [20, 30],
+        "won dawn crystal": [8, 12]
     }
 }
