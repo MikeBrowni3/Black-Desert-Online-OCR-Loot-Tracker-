@@ -12,6 +12,9 @@ from torchvision import models, transforms
 from PIL import Image
 import cv2
 import numpy as np
+import requests
+from io import BytesIO
+import time
 
 # ================== CONFIGURATION ==================
 DATA_FOLDER = "BDO_Data"
@@ -25,6 +28,80 @@ BATCH_SIZE = 16
 EPOCHS = 20
 LEARNING_RATE = 0.001
 IMAGE_SIZE = 64  # Input size for MobileNetV3
+
+# ================== ICON DOWNLOADER ==================
+def download_new_icons():
+    """Download icons for new items only (doesn't overwrite existing files)"""
+    print("=" * 60)
+    print("Downloading New Icons")
+    print("=" * 60)
+    
+    # Create output directory if it doesn't exist
+    os.makedirs(DROPS_ICONS_FOLDER, exist_ok=True)
+    
+    # Read the JSON file
+    with open(ITEM_DB_FILE, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    
+    # Headers to mimic browser request
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    }
+    
+    # Track processed IDs to avoid duplicates
+    processed_ids = set()
+    new_downloads = 0
+    skipped = 0
+    errors = 0
+    
+    # Iterate through each item
+    for key, item in data.items():
+        item_id = item.get('id')
+        icon_url = item.get('icon')
+        
+        if not item_id or not icon_url:
+            continue
+        
+        # Skip if we've already processed this ID
+        if item_id in processed_ids:
+            continue
+        
+        processed_ids.add(item_id)
+        
+        # Check if file already exists
+        output_path = os.path.join(DROPS_ICONS_FOLDER, f"{item_id}.png")
+        if os.path.exists(output_path):
+            skipped += 1
+            continue
+        
+        try:
+            # Download the image with headers
+            response = requests.get(icon_url, headers=headers, timeout=10)
+            response.raise_for_status()
+            
+            # Open the image from bytes
+            img = Image.open(BytesIO(response.content))
+            
+            # Convert to RGB if necessary (for RGBA images)
+            if img.mode in ('RGBA', 'LA', 'P'):
+                img = img.convert('RGB')
+            
+            # Save as PNG with the ID as filename
+            img.save(output_path, 'PNG')
+            
+            new_downloads += 1
+            print(f"   Downloaded: {item_id}.png")
+            
+            # Small delay to avoid rate limiting
+            time.sleep(0.1)
+            
+        except Exception as e:
+            errors += 1
+            print(f"   Error processing {item_id}: {e}")
+    
+    print(f"\n[Icon Downloader] New downloads: {new_downloads}, Skipped existing: {skipped}, Errors: {errors}")
+    print(f"[Icon Downloader] Total icons in folder: {len(os.listdir(DROPS_ICONS_FOLDER))}")
+    print()
 
 # ================== DATASET LOADER ==================
 class IconDataset(Dataset):
@@ -231,4 +308,7 @@ def train_model():
     print("=" * 60)
 
 if __name__ == "__main__":
+    # Download new icons first
+    download_new_icons()
+    # Then train the model
     train_model()

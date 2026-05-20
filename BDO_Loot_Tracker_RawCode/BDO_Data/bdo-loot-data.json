@@ -1,0 +1,34 @@
+{
+    "class": "Awakening Kunoichi",
+    "class_icon": "class_icons/Kunoichi_class_icon_White.png",
+    "location": "Darkseeker's Retreat",
+    "start_timestamp": 1779238079.1076193,
+    "session_duration": "00:05:41",
+    "total_silver": 66514950,
+    "silver_per_hr": 698872901,
+    "trash_per_hr": 12555,
+    "session_active": false,
+    "timestamp": 1779238421,
+    "items": {
+        "decayed cloth": {
+            "count": 1195,
+            "icon": "drop_icons/65330.png"
+        },
+        "black stone": {
+            "count": 16,
+            "icon": "drop_icons/16001.png"
+        },
+        "trace of nature": {
+            "count": 10,
+            "icon": "drop_icons/5960.png"
+        },
+        "ancient spirit dust": {
+            "count": 2,
+            "icon": "drop_icons/721002.png"
+        },
+        "sealed black magic crystal": {
+            "count": 1,
+            "icon": "drop_icons/768160.png"
+        }
+    }
+}

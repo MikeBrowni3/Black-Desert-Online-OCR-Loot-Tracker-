@@ -119,6 +119,9 @@
         let playedSounds = new Set();
         let lastCountdown = null;
         let soundEnabled = false;
+        let spawnTimestamp = null;
+        let currentBoss = null;
+        let currentRegion = null;
 
         function enableSound() {
             soundEnabled = true;
@@ -132,14 +135,16 @@
             }).catch(e => console.log('Audio enable failed:', e));
         }
 
-        function parseCountdown(countdownStr) {
-            if (!countdownStr || countdownStr === "--:--:--") return null;
-            const parts = countdownStr.split(':');
-            if (parts.length !== 3) return null;
-            const hours = parseInt(parts[0]) || 0;
-            const minutes = parseInt(parts[1]) || 0;
-            const seconds = parseInt(parts[2]) || 0;
-            return hours * 3600 + minutes * 60 + seconds;
+        function formatCountdown(seconds) {
+            if (seconds <= 0) return "SPAWNED";
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = Math.floor(seconds % 60);
+            if (hours > 0) {
+                return `${hours}h ${minutes}m ${secs}s`;
+            } else {
+                return `${minutes}m ${secs}s`;
+            }
         }
 
         function playSound(soundFile) {
@@ -151,7 +156,48 @@
             playedSounds.add(soundFile);
         }
 
-        async function refreshBossTimer() {
+        function updateLocalCountdown() {
+            if (!spawnTimestamp) return;
+
+            const now = new Date();
+            const spawnTime = new Date(spawnTimestamp);
+            const diffSeconds = (spawnTime - now) / 1000;
+
+            const countdownEl = document.getElementById('countdown');
+            if (countdownEl) {
+                countdownEl.innerText = formatCountdown(diffSeconds);
+            }
+
+            // Sound notifications based on countdown
+            const currentSeconds = Math.floor(diffSeconds);
+            if (currentSeconds >= 0) {
+                // Reset played sounds if countdown increased (new boss)
+                if (lastCountdown !== null && currentSeconds > lastCountdown + 60) {
+                    playedSounds.clear();
+                }
+                
+                // Play sounds at specific intervals
+                if (currentSeconds <= 1 && currentSeconds >= 0) {
+                    playSound('spawn.mp3');
+                } else if (currentSeconds <= 60 && currentSeconds >= 59) {
+                    playSound('1.mp3');
+                } else if (currentSeconds <= 180 && currentSeconds >= 179) {
+                    playSound('3.mp3');
+                } else if (currentSeconds <= 300 && currentSeconds >= 299) {
+                    playSound('5.mp3');
+                } else if (currentSeconds <= 600 && currentSeconds >= 599) {
+                    playSound('10.mp3');
+                } else if (currentSeconds <= 900 && currentSeconds >= 899) {
+                    playSound('15.mp3');
+                } else if (currentSeconds <= 1800 && currentSeconds >= 1799) {
+                    playSound('30.mp3');
+                }
+                
+                lastCountdown = currentSeconds;
+            }
+        }
+
+        async function syncBossTimer() {
             try {
                 const response = await fetch(
                     './bosstimer.json?t=' + Date.now(),
@@ -170,11 +216,36 @@
                 const container = document.getElementById('boss-container');
                 container.style.display = 'block';
 
-                document.getElementById('boss-name').innerText = data.next_boss || "Loading...";
-                document.getElementById('countdown').innerText = data.countdown || "--:--:--";
-                document.getElementById('region').innerText = data.region || "";
+                // Update boss info if changed
+                if (data.next_boss && data.next_boss !== currentBoss) {
+                    currentBoss = data.next_boss;
+                    document.getElementById('boss-name').innerText = currentBoss;
+                    playedSounds.clear(); // Reset sounds for new boss
+                }
+                
+                if (data.region && data.region !== currentRegion) {
+                    currentRegion = data.region;
+                    document.getElementById('region').innerText = currentRegion;
+                }
 
-                // Boss icon mapping - Replace these URLs with actual boss icon images
+                // Update spawn timestamp if available (new format)
+                if (data.spawn_timestamp) {
+                    spawnTimestamp = data.spawn_timestamp;
+                } else if (data.seconds_remaining !== undefined) {
+                    // Fallback: calculate spawn timestamp from seconds_remaining (old format)
+                    const now = new Date();
+                    const spawnTime = new Date(now.getTime() + (data.seconds_remaining * 1000));
+                    // Format as local time string (YYYY-MM-DD HH:MM:SS)
+                    const year = spawnTime.getFullYear();
+                    const month = String(spawnTime.getMonth() + 1).padStart(2, '0');
+                    const day = String(spawnTime.getDate()).padStart(2, '0');
+                    const hours = String(spawnTime.getHours()).padStart(2, '0');
+                    const minutes = String(spawnTime.getMinutes()).padStart(2, '0');
+                    const seconds = String(spawnTime.getSeconds()).padStart(2, '0');
+                    spawnTimestamp = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+                }
+
+                // Boss icon mapping
                 const bossIcons = {
                     "Kzarka": "https://assets.garmoth.com/boss/large/kzarka.webp",
                     "Karanda": "https://assets.garmoth.com/boss/large/karanda.webp",
@@ -193,7 +264,7 @@
                 };
 
                 const bossIcon = document.getElementById('boss-icon');
-                const iconUrl = bossIcons[data.next_boss];
+                const iconUrl = bossIcons[currentBoss];
                 if (iconUrl) {
                     bossIcon.src = iconUrl;
                     bossIcon.style.display = 'inline';
@@ -201,41 +272,20 @@
                     bossIcon.style.display = 'none';
                 }
 
-                // Sound notifications based on countdown
-                const currentSeconds = parseCountdown(data.countdown);
-                if (currentSeconds !== null) {
-                    // Reset played sounds if countdown increased (new boss)
-                    if (lastCountdown !== null && currentSeconds > lastCountdown + 60) {
-                        playedSounds.clear();
-                    }
-                    
-                    // Play sounds at specific intervals
-                    if (currentSeconds <= 1 && currentSeconds >= 0) {
-                        playSound('spawn.mp3');
-                    } else if (currentSeconds <= 60 && currentSeconds >= 59) {
-                        playSound('1.mp3');
-                    } else if (currentSeconds <= 180 && currentSeconds >= 179) {
-                        playSound('3.mp3');
-                    } else if (currentSeconds <= 300 && currentSeconds >= 299) {
-                        playSound('5.mp3');
-                    } else if (currentSeconds <= 600 && currentSeconds >= 599) {
-                        playSound('10.mp3');
-                    } else if (currentSeconds <= 900 && currentSeconds >= 899) {
-                        playSound('15.mp3');
-                    } else if (currentSeconds <= 1800 && currentSeconds >= 1799) {
-                        playSound('30.mp3');
-                    }
-                    
-                    lastCountdown = currentSeconds;
-                }
-
             } catch (e) {
                 console.log("Waiting for boss timer data...");
             }
         }
 
-        setInterval(refreshBossTimer, 1000);
-        refreshBossTimer();
+        // Update countdown locally every second
+        setInterval(updateLocalCountdown, 1000);
+        
+        // Sync with tracker.py every 30 seconds
+        setInterval(syncBossTimer, 30000);
+        
+        // Initial sync
+        syncBossTimer();
+        updateLocalCountdown();
 
     </script>
 
